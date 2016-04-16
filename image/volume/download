@@ -3,7 +3,14 @@
 mkdir /dumps
 cd /dumps
 
-RELEASE_TAG=$(wget http://ftp.musicbrainz.org/pub/musicbrainz/data/fullexport/LATEST -q -O -)
+if [ -z "$RELEASE_TAG" ]; then
+  echo "RELEASE_TAG env var not given, will retrieve LATEST from Musicbrainz FTP"
+  RELEASE_TAG=$(wget http://ftp.musicbrainz.org/pub/musicbrainz/data/fullexport/LATEST -q -O -)
+fi
+
+# somehow.. using the above wget command outside of the container
+# results in an older release tag...
+echo "latest release is: ${RELEASE_TAG}"
 
 URL="http://ftp.musicbrainz.org/pub/musicbrainz/data/fullexport/${RELEASE_TAG}"
 
@@ -11,3 +18,7 @@ wget "$URL/mbdump-cover-art-archive.tar.bz2" \
      "$URL/mbdump-derived.tar.bz2" \
      "$URL/mbdump.tar.bz2" \
      "$URL/mbdump-cdstubs.tar.bz2"
+
+# TODO: test whether the dumps have donloaded
+
+ls -l /dumps

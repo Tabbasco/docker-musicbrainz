@@ -43,6 +43,8 @@ ADD crontab /etc/crontab
 COPY entrypoint.sh /etc/my_init.d/entrypoint.sh
 RUN chmod 755 /etc/my_init.d/entrypoint.sh
 
+RUN mkdir /dumps
+
 # make sure the postgres user can run the scripts
 ADD ./volume /var/lib/postgresql/
 

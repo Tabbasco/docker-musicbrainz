@@ -3,9 +3,9 @@
 # the 'make_as_postgres' script
 musicbrainz:
   build: ./image
-  volumes:
+  # volumes:
     # - "./image/volume:/var/lib/postgresql"
-    - "./dumps:/dumps"
+    # - "./dumps:/dumps"
   # ports:
     # - "9390:5432"
   environment:
@@ -15,6 +15,7 @@ musicbrainz:
     - "DB_UNACCENT=true"
     - "REPLICATION_USER=repluser"
     - "REPLICATION_PASS=your_musicbrainz_access_token_here"
+    - "RELEASE_TAG=20160413-004922"
 
 musicbrainz_hub:
   image: tabbas/docker-musicbrainz
