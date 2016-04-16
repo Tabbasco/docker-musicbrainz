@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd /dumps
+
+RELEASE_TAG=$(wget http://ftp.musicbrainz.org/pub/musicbrainz/data/fullexport/LATEST -q -O -)
+
+URL="http://ftp.musicbrainz.org/pub/musicbrainz/data/fullexport/${RELEASE_TAG}"
+
+wget "$URL/mbdump-cover-art-archive.tar.bz2" \
+     "$URL/mbdump-derived.tar.bz2" \
+     "$URL/mbdump.tar.bz2" \
+     "$URL/mbdump-cdstubs.tar.bz2"
