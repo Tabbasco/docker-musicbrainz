@@ -1,0 +1,37 @@
+#!/bin/bash
+ 
+# make config file from env vars
+sh ./make_config
+
+# get size in kilobytes of this directory
+SIZE=$(du --max-depth=0 ./ | cut -f1)
+
+# check if dir is bigger than 1GB size
+# because we know the musicbrainz DB to be between 1 and 2
+if [ "$SIZE" -gt "1000000" ]; then
+  
+  echo "database seems initialised. sleeping..."
+
+# initialise
+else 
+
+  echo "database does not seem to have been initialised. initialising..."
+
+  # dont do anything if there are dumps
+  if [ "$(ls -A /dumps)" ]; then
+    echo "dumps found. waiting for postgres to start in init.d..."
+    sleep 5 # wait for postgres startup
+
+  # or download the dumps
+  else
+    echo "no data dumps found. downloading..."
+    sh ./download
+  fi
+
+  # http://stackoverflow.com/questions/1988249/
+  su - postgres -c "./make" 
+  
+fi
+
+# http://unix.stackexchange.com/a/128272
+sleep infinity

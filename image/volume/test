@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SIZE=$(du --max-depth=0 ./ | cut -f1)
+if [ "$SIZE" -gt "1000000" ]; then
+  echo "true"
+fi

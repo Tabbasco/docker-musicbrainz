@@ -1,0 +1,17 @@
+# first run this container
+# then go into it with docker exec and run 
+# the 'make_as_postgres' script
+musicbrainz:
+  build: ./image
+  volumes:
+    # - "./image/volume:/var/lib/postgresql"
+    - "./dumps:/dumps"
+  # ports:
+    # - "9390:5432"
+  environment:
+    - "DB_USER=musicbrainz"
+    - "DB_PASS=kdjvskvhksgfuwriufywiy7t9576t27yqtuwyg"
+    # - "DB_NAME=musicbrainz"
+    - "DB_UNACCENT=true"
+    - "REPLICATION_USER=repluser"
+    - "REPLICATION_PASS=your_musicbrainz_access_token_here"
