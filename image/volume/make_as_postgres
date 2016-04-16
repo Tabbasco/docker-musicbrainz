@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+
 # make config file from env vars
 sh ./make_config
 
@@ -25,11 +25,11 @@ else
   # or download the dumps
   else
     echo "no data dumps found. downloading..."
-    sh ./download
+    sh ./download | tee /var/log/container.log
   fi
 
   # http://stackoverflow.com/questions/1988249/
-  su - postgres -c "./make" 
+  su - postgres -c "./make" | tee /var/log/container.log
   
 fi
 

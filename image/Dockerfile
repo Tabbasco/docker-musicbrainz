@@ -19,8 +19,8 @@ ENV PG_CONFDIR="/etc/postgresql/${PG_VERSION}/main" \
     PG_DATADIR="${PG_HOME}/${PG_VERSION}/main"
 
 # also RELEASE_TAG could be set for static import
-ENV DB_USER=musicbrainz \
-    DB_PASS=set_this_password_in_docker_compose \
+ENV DB_USER="musicbrainz" \
+    DB_PASS="set_this_password_in_docker_compose" \
     DB_UNACCENT=true \
     REPLICATION_USER=repluser
 
@@ -35,7 +35,7 @@ EXPOSE 5432/tcp
 #VOLUME ["${PG_HOME}", "${PG_RUNDIR}"]
 
 # jelastic complains about the run path
-VOLUME ["${PG_HOME}"]
+VOLUME ["${PG_HOME}", '/dumps']
 WORKDIR ${PG_HOME}
 
 # install dependencies
@@ -53,6 +53,9 @@ RUN mkdir /dumps
 
 # make sure the postgres user can run the scripts
 ADD ./volume /var/lib/postgresql/
+
+# optionally log to c
+RUN touch /var/log/container.log
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init", "./make_as_postgres"]
