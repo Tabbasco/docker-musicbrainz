@@ -18,6 +18,12 @@ ENV PG_CONFDIR="/etc/postgresql/${PG_VERSION}/main" \
     PG_BINDIR="/usr/lib/postgresql/${PG_VERSION}/bin" \
     PG_DATADIR="${PG_HOME}/${PG_VERSION}/main"
 
+# also RELEASE_TAG could be set for static import
+ENV DB_USER=musicbrainz \
+    DB_PASS=set_this_password_in_docker_compose \
+    DB_UNACCENT=true \
+    REPLICATION_USER=repluser
+
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
  && apt-get update \
@@ -28,7 +34,6 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
 EXPOSE 5432/tcp
 VOLUME ["${PG_HOME}", "${PG_RUNDIR}"]
 WORKDIR ${PG_HOME}
-#ENTRYPOINT ["/sbin/entrypoint.sh"]
 
 # install dependencies
 RUN apt-get update && apt-get install -y python python-psycopg2
@@ -36,13 +41,11 @@ RUN apt-get update && apt-get install -y python python-psycopg2
 # add crontab with script to replicate
 ADD crontab /etc/crontab
 
-#COPY entrypoint.sh /sbin/entrypoint.sh
-#RUN chmod 755 /sbin/entrypoint.sh
-
 # run postgres on init as daemon (see emtrypoint end script)
 COPY entrypoint.sh /etc/my_init.d/entrypoint.sh
 RUN chmod 755 /etc/my_init.d/entrypoint.sh
 
+# make sure this dir exists
 RUN mkdir /dumps
 
 # make sure the postgres user can run the scripts
@@ -50,5 +53,3 @@ ADD ./volume /var/lib/postgresql/
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init", "./make_as_postgres"]
-
-#CMD ["/sbin/my_init", "echo test"]
