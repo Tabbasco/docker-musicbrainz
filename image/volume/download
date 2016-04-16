@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir /dumps
 cd /dumps
 
 RELEASE_TAG=$(wget http://ftp.musicbrainz.org/pub/musicbrainz/data/fullexport/LATEST -q -O -)

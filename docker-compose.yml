@@ -15,3 +15,13 @@ musicbrainz:
     - "DB_UNACCENT=true"
     - "REPLICATION_USER=repluser"
     - "REPLICATION_PASS=your_musicbrainz_access_token_here"
+
+musicbrainz_hub:
+  image: tabbas/docker-musicbrainz
+  environment:
+    - "DB_USER=musicbrainz"
+    - "DB_PASS=choose_password_here"
+    # - "DB_NAME=musicbrainz"
+    - "DB_UNACCENT=true"
+    - "REPLICATION_USER=repluser"
+    - "REPLICATION_PASS=your_musicbrainz_access_token_here"
