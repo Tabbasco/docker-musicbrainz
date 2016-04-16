@@ -14,7 +14,7 @@ musicbrainz:
     # - "DB_NAME=musicbrainz"
     # - "DB_UNACCENT=true"
     # - "REPLICATION_USER=repluser"
-    - "REPLICATION_PASS=your_musicbrainz_access_token_here"
+    # - "REPLICATION_PASS=your_musicbrainz_access_token_here"
     - "RELEASE_TAG=20160413-004922"
 
 musicbrainz_hub:

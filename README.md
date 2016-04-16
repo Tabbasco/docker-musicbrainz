@@ -4,7 +4,7 @@ docker musicbrainz instance that self-initializes without user configuration.
 ## set ENV VARS
 set `DB_PASS` to your database password.
 
-(optional) set `REPLICATION_PASS` to the musicbrainz access token for replication.
+(optional) set `REPLICATION_TOKEN` to the musicbrainz access token for replication.
 
 ## if the build fails
 if the build fails (i.e. mbdump.tar.gz could not be downloaded), visit [this](http://ftp.musicbrainz.org/pub/musicbrainz/data/fullexport/LATEST) page and put the value in the `RELEASE_TAG` env var.
