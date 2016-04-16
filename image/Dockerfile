@@ -32,7 +32,10 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
  && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5432/tcp
-VOLUME ["${PG_HOME}", "${PG_RUNDIR}"]
+#VOLUME ["${PG_HOME}", "${PG_RUNDIR}"]
+
+# jelastic complains about the run path
+VOLUME ["${PG_HOME}"]
 WORKDIR ${PG_HOME}
 
 # install dependencies
