@@ -10,7 +10,7 @@ musicbrainz:
     # - "9390:5432"
   environment:
     - "DB_USER=musicbrainz"
-    - "DB_PASS=kdjvskvhksgfuwriufywiy7t9576t27yqtuwyg"
+    - "DB_PASS=choose_password_here"
     # - "DB_NAME=musicbrainz"
     - "DB_UNACCENT=true"
     - "REPLICATION_USER=repluser"
