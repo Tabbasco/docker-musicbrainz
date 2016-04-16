@@ -50,7 +50,7 @@ COPY entrypoint.sh /etc/my_init.d/entrypoint.sh
 RUN chmod 755 /etc/my_init.d/entrypoint.sh
 
 # make sure this dir exists
-RUN mkdir /dumps
+RUN mkdir -p /dumps
 
 # make sure the postgres user can run the scripts
 ADD ./volume /var/lib/postgresql/
