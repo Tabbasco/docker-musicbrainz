@@ -20,7 +20,7 @@ ENV PG_CONFDIR="/etc/postgresql/${PG_VERSION}/main" \
 
 # also RELEASE_TAG could be set for static import
 ENV DB_USER="musicbrainz" \
-    DB_PASS="set_this_password_in_docker_compose" \
+    DB_PASS="musicbrainz" \
     DB_UNACCENT=true \
     REPLICATION_USER=repluser \
     REPLICATION_PASS="set_this_password_in_docker_compose"
@@ -44,6 +44,9 @@ RUN apt-get update && apt-get install -y python python-psycopg2
 
 # add crontab with script to replicate
 ADD crontab /etc/crontab
+
+# https://github.com/phusion/baseimage-docker/issues/115
+RUN chmod 600 /etc/crontab
 
 # run postgres on init as daemon (see emtrypoint end script)
 COPY entrypoint.sh /etc/my_init.d/entrypoint.sh
