@@ -8,6 +8,7 @@ SIZE=$(du --max-depth=0 ./ | cut -f1)
 
 # check if dir is bigger than 1GB size
 # because we know the musicbrainz DB to be between 1 and 2
+# TODO: set flag after success instead
 if [ "$SIZE" -gt "1000000" ]; then
   
   echo "database seems initialised. sleeping..."

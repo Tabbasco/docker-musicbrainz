@@ -32,11 +32,6 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
  && rm -rf ${PG_HOME} \
  && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 5432/tcp
-#VOLUME ["${PG_HOME}", "${PG_RUNDIR}"]
-
-# jelastic complains about the run path
-VOLUME ["${PG_HOME}", "/dumps"]
 WORKDIR ${PG_HOME}
 
 # install dependencies
@@ -59,7 +54,13 @@ RUN mkdir -p /dumps
 ADD ./volume ${PG_HOME}
 
 # get mbslave scripts
-RUN git clone https://bitbucket.org/lalinsky/mbslave.git ./mbslave2 && ls mbslave2
+RUN git clone https://bitbucket.org/lalinsky/mbslave.git ./mbslave2
+
+# jelastic complains about the run path
+#VOLUME ["${PG_HOME}", "${PG_RUNDIR}"]
+VOLUME ["${PG_HOME}", "/dumps"]
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init", "./make_as_postgres"]
+
+EXPOSE 5432/tcp
