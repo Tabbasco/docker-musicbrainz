@@ -25,6 +25,9 @@ ENV DB_USER="musicbrainz" \
     REPLICATION_USER=repluser \
     REPLICATION_PASS="set_this_password_in_docker_compose"
 
+# mbslave revision
+ENV MBSLAVE_REV=b36a1c6
+
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
  && apt-get update \
@@ -54,7 +57,8 @@ RUN mkdir -p /dumps
 ADD ./volume ${PG_HOME}
 
 # get mbslave scripts
-RUN git clone https://bitbucket.org/lalinsky/mbslave.git ./mbslave2
+RUN git clone https://bitbucket.org/lalinsky/mbslave.git ./mbslave2 && \
+    cd ./mbslave2 && git reset --hard ${MBSLAVE_REV}
 
 # jelastic complains about the run path
 #VOLUME ["${PG_HOME}", "${PG_RUNDIR}"]
