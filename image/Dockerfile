@@ -40,7 +40,7 @@ VOLUME ["${PG_HOME}", "/dumps"]
 WORKDIR ${PG_HOME}
 
 # install dependencies
-RUN apt-get update && apt-get install -y python python-psycopg2
+RUN apt-get update && apt-get install -y python python-psycopg2 git
 
 # add crontab with script to replicate
 ADD crontab /etc/crontab
@@ -59,12 +59,7 @@ RUN mkdir -p /dumps
 ADD ./volume ${PG_HOME}
 
 # get mbslave scripts
-RUN wget https://bitbucket.org/lalinsky/mbslave/get/f68bb2b9d92b.zip \
-    -O mbslave.zip; \
-    unzip mbslave.zip; \
-    rm mbslave.zip; \
-    mv lalinsky-mbslave-* mbslave2; \
-    ls mbslave2
+RUN git clone https://bitbucket.org/lalinsky/mbslave.git ./mbslave2 && ls mbslave2
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init", "./make_as_postgres"]
