@@ -56,10 +56,15 @@ RUN chmod 755 /etc/my_init.d/entrypoint.sh
 RUN mkdir -p /dumps
 
 # make sure the postgres user can run the scripts
-ADD ./volume /var/lib/postgresql/
+ADD ./volume ${PG_HOME}
 
-# optionally log to c
-RUN touch /var/log/container.log
+# get mbslave scripts
+RUN wget https://bitbucket.org/lalinsky/mbslave/get/f68bb2b9d92b.zip \
+    -O mbslave.zip; \
+    unzip mbslave.zip; \
+    rm mbslave.zip; \
+    mv lalinsky-mbslave-* mbslave2; \
+    ls mbslave2
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init", "./make_as_postgres"]
